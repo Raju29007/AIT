@@ -1,0 +1,44 @@
+graph = [
+    [0, 1, 1, 0],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1],
+    [0, 1, 1, 0]
+]
+
+n = len(graph)
+color = [0] * n
+
+
+def is_safe(v, c):
+    for i in range(n):
+        if graph[v][i] == 1 and color[i] == c:
+            return False
+    return True
+
+
+def graph_coloring(v, m):
+    if v == n:
+        return True
+
+    for c in range(1, m + 1):
+        if is_safe(v, c):
+            color[v] = c
+
+            if graph_coloring(v + 1, m):
+                return True
+
+            color[v] = 0
+
+    return False
+
+
+for m in range(1, n + 1):
+    color = [0] * n
+
+    if graph_coloring(0, m):
+        print("Minimum colours:", m)
+
+        for i in range(n):
+            print("Vertex", i + 1, "-> Colour", color[i])
+
+        break
